@@ -38,30 +38,41 @@ h3 {
 .poll-wrap {
   max-width: 640px;
   margin: 0 auto;
-  padding: 24px 18px 64px;
+  padding: 14px 14px 28px;
 }
 
 .poll-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 18px;
+  padding: 16px 16px 14px;
+  margin-bottom: 12px;
+}
+
+/* Compacte koptekst op de poll-pagina: titel en intro dicht op elkaar. */
+.poll-card > h1 {
+  margin: 0 0 6px;
+  font-size: 1.4rem;
 }
 
 .poll-intro {
   color: var(--muted);
+  margin: 0;
 }
 
 .question {
-  margin-bottom: 26px;
+  margin-bottom: 16px;
+}
+
+.question:last-child {
+  margin-bottom: 4px;
 }
 
 .question-label {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1.05rem;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   line-height: 1.4em;
 }
 
@@ -73,7 +84,7 @@ h3 {
 .options {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .option-btn {
@@ -82,14 +93,14 @@ h3 {
   gap: 10px;
   width: 100%;
   text-align: left;
-  padding: 14px 16px;
+  padding: 11px 14px;
   border: 1.5px solid var(--border);
   border-radius: 10px;
   background: #fff;
   font: inherit;
   cursor: pointer;
   transition: all 0.15s ease;
-  min-height: 48px;
+  min-height: 46px;
 }
 
 .option-btn:hover {
@@ -220,6 +231,17 @@ h3 {
   line-height: 1.6em;
 }
 
+/* Discrete herkomst-voettekst onder de poll. */
+.poll-herkomst {
+  margin-top: 16px;
+  padding: 0 4px;
+  color: var(--muted);
+  opacity: 0.75;
+  font-size: 0.78rem;
+  line-height: 1.6em;
+  text-align: center;
+}
+
 .form-error {
   background: #fbeaea;
   color: #b00020;
@@ -327,6 +349,10 @@ h3 {
 .tag.open {
   background: #e3f3e3;
   color: #1d7a1d;
+}
+.tag.permanent {
+  background: #e7eefb;
+  color: #1a4ba8;
 }
 .tag.gesloten {
   background: #fbeaea;

@@ -24,10 +24,15 @@ export async function POST(
   if (pollErr) return NextResponse.json({ error: 'Serverfout.' }, { status: 500 });
   if (!poll) return NextResponse.json({ error: 'Poll niet gevonden.' }, { status: 404 });
 
-  if (poll.status !== 'open') {
+  // Stemmen wordt geaccepteerd bij 'open' én 'permanent'; 'permanent' sluit nooit.
+  if (poll.status !== 'open' && poll.status !== 'permanent') {
     return NextResponse.json({ error: 'Deze peiling is gesloten.' }, { status: 409 });
   }
-  if (poll.closes_at && new Date(poll.closes_at).getTime() < Date.now()) {
+  if (
+    poll.status !== 'permanent' &&
+    poll.closes_at &&
+    new Date(poll.closes_at).getTime() < Date.now()
+  ) {
     return NextResponse.json({ error: 'Deze peiling is gesloten.' }, { status: 409 });
   }
 

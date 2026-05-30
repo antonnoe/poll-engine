@@ -1,6 +1,6 @@
 // Gedeelde types voor de poll-engine.
 
-export type PollStatus = 'concept' | 'open' | 'gesloten';
+export type PollStatus = 'concept' | 'open' | 'permanent' | 'gesloten';
 export type QuestionType = 'keuze' | 'meervoud' | 'schaal' | 'postcode';
 
 export interface Poll {

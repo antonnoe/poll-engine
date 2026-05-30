@@ -63,8 +63,12 @@ npm run build    # productiebuild
 
 **Publiek**
 - `GET /poll/[slug]` — standalone poll-pagina (huisstijl, mobile-first).
-- `POST /api/poll/[slug]/vote` — inzenden (service role).
-- `GET /api/poll/[slug]/results` — uitslag, **alleen tellingen** (nooit `person`/`ip_hash`).
+- `POST /api/poll/[slug]/vote` — inzenden (service role); accepteert stemmen bij `open` én `permanent`.
+- `GET /api/poll/[slug]/results` — uitslag, **alleen tellingen** (nooit `person`/`ip_hash`). **CORS: cross-origin GET toegestaan.**
+- `GET /api/polls` — publieke lijst van raadplegingen, gegroepeerd op status: `lopend` (open), `permanent`, `voltooid` (gesloten). Per poll alleen `slug`, `titel`, `status`. **CORS: cross-origin GET toegestaan.**
+
+**Pollstatussen:** `concept` (alleen beheer) · `open` (lopend, stemmen + resultaat) ·
+`permanent` (sluit nooit, doorlopend stemmen + resultaat) · `gesloten` (voltooid, resultaat).
 
 **Beheer** (achter `ADMIN_SECRET`-cookie)
 - `GET /admin/polls` — dashboard: poll aanmaken, vragen toevoegen, status schakelen, uitslag, CSV.
@@ -96,6 +100,16 @@ Twee snippets in `embed/` (vervang `BASE_URL` en `SLUG`):
   iframe-overlay op volle breedte.
 - `embed/popup-snippet.html` — fallback zonder inline JS: knop opent de poll in een
   nieuw tabblad.
+
+## Losse overzichtspagina (`embed/raadplegingen.html`)
+
+Zelfstandig HTML-bestand (geen Next.js-route) in galaxy-menu-stijl, eigen viewport +
+inline CSS in huisstijl, mobiel-vriendelijk. Haalt bij laden `GET /api/polls` op van de
+poll-engine (absolute URL in de `BASE`-constante: `https://poll-engine.vercel.app`) en
+toont drie secties: **Lopende** (knop "Doe mee" → `/poll/[slug]`), **Permanente** (live
+resultaat via de results-endpoint) en **Voltooide** (resultaat). Bedoeld om als losse
+HTML achter `nederlanders.fr/raadplegingen` te hangen. Pas alleen `BASE` aan als het
+Vercel-domein wijzigt.
 
 ---
 

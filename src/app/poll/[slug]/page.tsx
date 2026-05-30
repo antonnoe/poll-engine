@@ -37,12 +37,19 @@ export default async function PollPage({
     <main className="poll-wrap">
       <div className="poll-card">
         <h1>{poll.titel}</h1>
-        {poll.intro && <p className="poll-intro">{poll.intro}</p>}
-        <p className="poll-intro" style={{ fontSize: '0.85rem' }}>
-          Dit is een peiling, geen aanbod en geen toezegging.
+        {/* Toon óf de database-intro, óf de standaardregel als fallback — nooit beide. */}
+        <p className="poll-intro">
+          {poll.intro?.trim()
+            ? poll.intro
+            : 'Dit is een peiling, geen aanbod en geen toezegging.'}
         </p>
       </div>
       <PollForm poll={full} />
+      <footer className="poll-herkomst">
+        Raadplegingsinstrument ontwikkeld door Communities Abroad, de
+        serviceorganisatie achter Infofrankrijk.com, Café Claude (cafeclaude.fr),
+        Nedergids.nl en Nederlanders.fr.
+      </footer>
     </main>
   );
 }

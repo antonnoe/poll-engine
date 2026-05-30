@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import { serviceClient } from '@/lib/supabase';
 import { aggregateQuestion } from '@/lib/aggregate';
+import { corsHeaders, corsPreflight } from '@/lib/cors';
 import type { Poll, PollQuestion, PollResults } from '@/lib/types';
 
 export const runtime = 'nodejs';
+
+export function OPTIONS() {
+  return corsPreflight();
+}
 
 export async function GET(
   _req: Request,
@@ -18,8 +23,10 @@ export async function GET(
     .eq('slug', slug)
     .maybeSingle<Pick<Poll, 'id' | 'slug' | 'titel' | 'status'>>();
 
-  if (pollErr) return NextResponse.json({ error: 'Serverfout.' }, { status: 500 });
-  if (!poll) return NextResponse.json({ error: 'Poll niet gevonden.' }, { status: 404 });
+  if (pollErr)
+    return NextResponse.json({ error: 'Serverfout.' }, { status: 500, headers: corsHeaders });
+  if (!poll)
+    return NextResponse.json({ error: 'Poll niet gevonden.' }, { status: 404, headers: corsHeaders });
 
   // Purge mee met de uitslag-route: wist person van inzendingen ouder dan de
   // per-poll ingestelde purge_after_days (standaard uit). answers/created_at
@@ -50,6 +57,9 @@ export async function GET(
   };
 
   return NextResponse.json(body, {
-    headers: { 'Cache-Control': 'public, max-age=15, stale-while-revalidate=60' },
+    headers: {
+      ...corsHeaders,
+      'Cache-Control': 'public, max-age=15, stale-while-revalidate=60',
+    },
   });
 }

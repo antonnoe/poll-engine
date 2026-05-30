@@ -47,7 +47,7 @@ export async function PATCH(
   } catch {
     return NextResponse.json({ error: 'Ongeldige aanvraag.' }, { status: 400 });
   }
-  if (!['concept', 'open', 'gesloten'].includes(body.status ?? '')) {
+  if (!['concept', 'open', 'permanent', 'gesloten'].includes(body.status ?? '')) {
     return NextResponse.json({ error: 'Ongeldige status.' }, { status: 400 });
   }
   const supabase = serviceClient();

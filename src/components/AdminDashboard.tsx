@@ -28,11 +28,7 @@ export default function AdminDashboard() {
     load();
   }
 
-  function nextStatus(s: PollStatus): PollStatus | null {
-    if (s === 'concept') return 'open';
-    if (s === 'open') return 'gesloten';
-    return null;
-  }
+  const ALL_STATUSES: PollStatus[] = ['concept', 'open', 'permanent', 'gesloten'];
 
   if (loading) return <p className="muted">Laden…</p>;
 
@@ -59,33 +55,30 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {polls.map((p) => {
-                const next = nextStatus(p.status);
-                return (
-                  <tr key={p.id}>
-                    <td>{p.titel}</td>
-                    <td>
-                      <code>{p.slug}</code>
-                    </td>
-                    <td>
-                      <span className={`tag ${p.status}`}>{p.status}</span>
-                    </td>
-                    <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                      <button className="btn-sm" onClick={() => setSelected(p.slug)}>
-                        Vragen / uitslag
+              {polls.map((p) => (
+                <tr key={p.id}>
+                  <td>{p.titel}</td>
+                  <td>
+                    <code>{p.slug}</code>
+                  </td>
+                  <td>
+                    <span className={`tag ${p.status}`}>{p.status}</span>
+                  </td>
+                  <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    <button className="btn-sm" onClick={() => setSelected(p.slug)}>
+                      Vragen / uitslag
+                    </button>
+                    {ALL_STATUSES.filter((s) => s !== p.status).map((s) => (
+                      <button key={s} className="btn-sm" onClick={() => setStatus(p.slug, s)}>
+                        → {s}
                       </button>
-                      {next && (
-                        <button className="btn-sm solid" onClick={() => setStatus(p.slug, next)}>
-                          → {next}
-                        </button>
-                      )}
-                      <a className="btn-sm" href={`/api/admin/poll/${p.slug}/export.csv`}>
-                        CSV
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
+                    ))}
+                    <a className="btn-sm" href={`/api/admin/poll/${p.slug}/export.csv`}>
+                      CSV
+                    </a>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
