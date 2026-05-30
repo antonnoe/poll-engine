@@ -187,6 +187,22 @@ export default function PollForm({ poll }: { poll: PollWithQuestions }) {
   );
 }
 
+// jsonb komt normaal als object binnen, maar normaliseer defensief: als een
+// pipeline config ooit als JSON-string levert, parsen we 'm zodat weergave/opties
+// nooit stilletjes wegvallen (en de vraag terugzakt naar knoppen).
+function asKeuzeConfig(config: unknown): KeuzeConfig {
+  let c = config;
+  if (typeof c === 'string') {
+    try {
+      c = JSON.parse(c);
+    } catch {
+      c = {};
+    }
+  }
+  const obj = (c ?? {}) as Partial<KeuzeConfig>;
+  return { opties: Array.isArray(obj.opties) ? obj.opties : [], weergave: obj.weergave };
+}
+
 function Question({
   q,
   answers,
@@ -203,6 +219,7 @@ function Question({
   onPostcode: (qid: number, v: string) => void;
 }) {
   const [infoOpen, setInfoOpen] = useState(false);
+  const keuzeCfg = q.type === 'keuze' || q.type === 'meervoud' ? asKeuzeConfig(q.config) : null;
   return (
     <div className="question">
       <div className="question-label">
@@ -222,7 +239,7 @@ function Question({
       </div>
       {q.info && infoOpen && <div className="info-block">{q.info}</div>}
 
-      {q.type === 'keuze' && (q.config as KeuzeConfig).weergave === 'dropdown' && (
+      {q.type === 'keuze' && keuzeCfg!.weergave === 'dropdown' && (
         <select
           className="select-input"
           value={(answers[q.id] as string | undefined) ?? ''}
@@ -231,7 +248,7 @@ function Question({
           <option value="" disabled>
             Kies…
           </option>
-          {(q.config as KeuzeConfig).opties.map((opt) => (
+          {keuzeCfg!.opties.map((opt) => (
             <option key={opt} value={opt}>
               {opt}
             </option>
@@ -239,9 +256,9 @@ function Question({
         </select>
       )}
 
-      {q.type === 'keuze' && (q.config as KeuzeConfig).weergave !== 'dropdown' && (
+      {q.type === 'keuze' && keuzeCfg!.weergave !== 'dropdown' && (
         <div className="options">
-          {(q.config as KeuzeConfig).opties.map((opt) => {
+          {keuzeCfg!.opties.map((opt) => {
             const selected = answers[q.id] === opt;
             return (
               <button
@@ -260,7 +277,7 @@ function Question({
 
       {q.type === 'meervoud' && (
         <div className="options">
-          {(q.config as KeuzeConfig).opties.map((opt) => {
+          {keuzeCfg!.opties.map((opt) => {
             const selected = ((answers[q.id] as string[] | undefined) ?? []).includes(opt);
             return (
               <button
