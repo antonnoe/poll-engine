@@ -80,7 +80,8 @@
   .btn-share.fb{background:var(--primary);color:#fff}
   .share-copied{color:var(--muted);font-size:.8rem;margin-top:6px}
   .qr-col{flex:0 0 auto;text-align:center}
-  .qr-col canvas,.qr-col img{border:1px solid var(--border);border-radius:10px;background:#fff;padding:6px}
+  .qr-col img{border:1px solid var(--border);border-radius:10px;background:#fff;padding:6px;display:block;width:148px;height:148px}
+  .qr-caption{margin-top:6px;color:var(--muted);font-size:.82rem}
   .qr-col .btn-share{margin-top:8px;display:inline-block}
 </style>
 </head>
@@ -102,8 +103,16 @@
     </div>
     <div class="qr-col">
       <h2>QR-code</h2>
-      <canvas id="qrCanvas" width="148" height="148" aria-label="QR-code naar de raadplegingen"></canvas>
-      <button type="button" class="btn-share" id="qrDownload">Download QR</button>
+      <a href="https://www.nederlanders.fr/raadplegingen" target="_blank" rel="noopener">
+        <img id="qrImg"
+             src="https://storage.ning.com/topology/rest/1.0/file/get/31172668680"
+             width="148" height="148"
+             alt="QR-code naar de raadplegingen" />
+      </a>
+      <div class="qr-caption">Scan de QR-code</div>
+      <a class="btn-share" id="qrDownload"
+         href="https://storage.ning.com/topology/rest/1.0/file/get/31172668680"
+         download="raadplegingen-qr.png" target="_blank" rel="noopener">Download QR</a>
     </div>
   </div>
 
@@ -115,7 +124,6 @@
   </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script>
   // Absolute URL naar de poll-engine op Vercel.
   var BASE = 'https://poll-engine.vercel.app';
@@ -253,21 +261,7 @@
     }
   });
 
-  // ---- QR-code: tonen op canvas + downloadbaar als PNG ----
-  if(window.QRCode){
-    QRCode.toCanvas(document.getElementById('qrCanvas'), SHARE_URL, { width:148, margin:1 }, function(){});
-    document.getElementById('qrDownload').addEventListener('click', function(){
-      QRCode.toDataURL(SHARE_URL, { width:512, margin:2 }, function(err, url){
-        if(err) return;
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'raadplegingen-qr.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      });
-    });
-  }
+  // QR-code is een vaste afbeelding (zie markup); geen dynamische generatie meer.
 
   fetch(BASE + '/api/polls')
     .then(function(r){ return r.json(); })
