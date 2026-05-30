@@ -19,6 +19,7 @@ export interface Poll {
 
 export interface KeuzeConfig {
   opties: string[];
+  weergave?: 'knoppen' | 'dropdown'; // default 'knoppen'; 'dropdown' = select voor veel opties
 }
 export interface SchaalConfig {
   min: number;

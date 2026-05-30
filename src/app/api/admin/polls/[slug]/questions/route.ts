@@ -18,6 +18,7 @@ export async function POST(
     type?: QuestionType;
     label?: string;
     opties?: string[];
+    weergave?: 'knoppen' | 'dropdown';
     schaal?: { min?: number; max?: number; min_label?: string; max_label?: string };
     verplicht?: boolean;
     positie?: number;
@@ -44,6 +45,10 @@ export async function POST(
       return NextResponse.json({ error: 'Minimaal 2 opties vereist.' }, { status: 400 });
     }
     config = { opties };
+    // Dropdown-weergave (alleen zinvol bij 'keuze').
+    if (type === 'keuze' && body.weergave === 'dropdown') {
+      config.weergave = 'dropdown';
+    }
   } else if (type === 'schaal') {
     const min = body.schaal?.min ?? 1;
     const max = body.schaal?.max ?? 5;

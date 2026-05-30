@@ -222,7 +222,24 @@ function Question({
       </div>
       {q.info && infoOpen && <div className="info-block">{q.info}</div>}
 
-      {q.type === 'keuze' && (
+      {q.type === 'keuze' && (q.config as KeuzeConfig).weergave === 'dropdown' && (
+        <select
+          className="select-input"
+          value={(answers[q.id] as string | undefined) ?? ''}
+          onChange={(e) => onSelect(q.id, e.target.value)}
+        >
+          <option value="" disabled>
+            Kies…
+          </option>
+          {(q.config as KeuzeConfig).opties.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      )}
+
+      {q.type === 'keuze' && (q.config as KeuzeConfig).weergave !== 'dropdown' && (
         <div className="options">
           {(q.config as KeuzeConfig).opties.map((opt) => {
             const selected = answers[q.id] === opt;

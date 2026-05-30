@@ -265,6 +265,7 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
   const [minLabel, setMinLabel] = useState('');
   const [maxLabel, setMaxLabel] = useState('');
   const [info, setInfo] = useState('');
+  const [dropdown, setDropdown] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function add() {
@@ -272,6 +273,7 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
     const payload: Record<string, unknown> = { type, label, verplicht, info };
     if (type === 'keuze' || type === 'meervoud') {
       payload.opties = opties.split('\n').map((o) => o.trim()).filter(Boolean);
+      if (type === 'keuze' && dropdown) payload.weergave = 'dropdown';
     } else if (type === 'schaal') {
       payload.schaal = { min: smin, max: smax, min_label: minLabel, max_label: maxLabel };
     }
@@ -308,6 +310,17 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
         <>
           <label>Opties (één per regel)</label>
           <textarea value={opties} onChange={(e) => setOpties(e.target.value)} rows={4} />
+          {type === 'keuze' && (
+            <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 8 }}>
+              <input
+                type="checkbox"
+                style={{ width: 'auto' }}
+                checked={dropdown}
+                onChange={(e) => setDropdown(e.target.checked)}
+              />
+              Dropdown-weergave (i.p.v. losse knoppen; handig bij veel opties)
+            </label>
+          )}
         </>
       )}
       {type === 'schaal' && (
