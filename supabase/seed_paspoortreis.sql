@@ -25,7 +25,7 @@ from p,
 (values
   (0, 'keuze',
       'Wanneer verwacht u uw paspoort of ID-kaart te moeten vernieuwen?',
-      '{"opties":["Dit kwartaal","Komende 6 maanden","Over 6–12 maanden","Later","Weet niet"]}',
+      '{"opties":["Q3 2026 (jul–sep)","Q4 2026 (okt–dec)","Q1 2027 (jan–mrt)","Q2 2027 (apr–jun)","Q3 2027 (jul–sep)","Q4 2027 (okt–dec)","Later of weet ik nog niet"]}',
       true, null),
   (1, 'keuze',
       'Zou u met anderen uit uw regio willen meereizen?',
