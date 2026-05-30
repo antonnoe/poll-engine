@@ -1,4 +1,4 @@
-# poll-engine — Café Claude
+# poll-engine — communities-tools
 
 Eén herbruikbare voorziening die **meerdere polls** draagt, met meerdere
 vraagtypes, optionele persoonsgegevens, uitslag-weergave (CSS-balken, geen
@@ -25,10 +25,12 @@ sluitdatum.
 ## Setup
 
 ### 1. Database
-Voer de migratie uit in de Supabase SQL-editor (project **Café Claude**):
+Voer de migraties uit in de Supabase SQL-editor (project **communities-tools**,
+`https://mqkhfyvrizgmmmcbdkxh.supabase.co`):
 
 ```
 supabase/migrations/0001_init.sql
+supabase/migrations/0002_purge.sql
 ```
 
 Daarna de eerste poll seeden:
@@ -99,17 +101,20 @@ Twee snippets in `embed/` (vervang `BASE_URL` en `SLUG`):
 
 ## Twee beslispunten — gekozen invulling
 
-1. **Beheer-auth.** Dit is een fresh standalone repo zonder bestaande Café Claude
+1. **Beheer-auth.** Dit is een fresh standalone repo zonder bestaande communities-tools
    SSO/HMAC-code om aan te koppelen. Daarom v1 met een **lean `ADMIN_SECRET`**
    (httpOnly cookie met HMAC-token; het secret zit niet in de cookie). Alle checks
    lopen via `src/lib/admin-auth.ts` → `isAdmin()` / `isAdminRequest()`. Vervang
    **enkel daar** door het bestaande SSO/HMAC-patroon wanneer dat beschikbaar is.
 
-2. **Bewaartermijn persoonsgegevens.** De paspoortreis-poll is anoniem, dus niet van
-   toepassing. Er is **bewust géén purge-mechanisme** ingebouwd (lean). Hookpunt voor
-   later: een cron/route die `update poll_submissions set person = null` draait voor
-   polls voorbij `closes_at` of ouder dan X dagen. Bouw dit pas wanneer een poll
-   daadwerkelijk persoonsgegevens verzamelt.
+2. **Bewaartermijn persoonsgegevens — ingebouwd.** Migratie `0002_purge.sql` voegt een
+   kolom `purge_after_days int` (nullable, **default null = nooit purgen**) toe aan
+   `polls`, plus de functie `purge_expired_person_data(p_poll_id bigint)`. Die wist
+   **alleen het `person`-veld** van inzendingen ouder dan de per-poll ingestelde termijn;
+   `answers` en `created_at` blijven intact, dus uitslagen blijven kloppen. **Geen cron:**
+   de uitslag-route (`GET /api/poll/[slug]/results`) roept de functie best-effort aan voor
+   de betreffende poll. Instelbaar bij het aanmaken van een poll (alleen relevant als
+   persoonsgegevens worden verzameld). De paspoortreis-poll is anoniem en raakt dit niet.
 
 ---
 

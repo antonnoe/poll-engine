@@ -1,4 +1,4 @@
--- ============ poll-engine: initiële migratie (Café Claude) ============
+-- ============ poll-engine: initiële migratie (communities-tools) ============
 create table public.polls (
   id                    bigint generated always as identity primary key,
   slug                  text not null unique,

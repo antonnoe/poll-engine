@@ -14,6 +14,7 @@ export interface Poll {
   ip_dedup: boolean;
   created_at: string;
   closes_at: string | null;
+  purge_after_days: number | null; // null = persoonsgegevens nooit purgen
 }
 
 export interface KeuzeConfig {

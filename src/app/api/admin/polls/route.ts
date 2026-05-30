@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     personal_fields?: string[];
     ip_dedup?: boolean;
     closes_at?: string | null;
+    purge_after_days?: number | null;
   };
   try {
     body = await req.json();
@@ -57,6 +58,12 @@ export async function POST(req: Request) {
       personal_fields: body.collect_personal_data ? body.personal_fields ?? [] : [],
       ip_dedup: body.ip_dedup ?? true,
       closes_at: body.closes_at || null,
+      purge_after_days:
+        body.collect_personal_data &&
+        typeof body.purge_after_days === 'number' &&
+        body.purge_after_days > 0
+          ? Math.floor(body.purge_after_days)
+          : null,
     })
     .select()
     .single();

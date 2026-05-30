@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Peilingen — Café Claude',
-  description: 'Herbruikbare poll-engine voor Café Claude.',
+  title: 'Peilingen — communities-tools',
+  description: 'Herbruikbare poll-engine voor communities-tools.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

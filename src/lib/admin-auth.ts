@@ -5,7 +5,7 @@ import { createHmac, timingSafeEqual } from 'crypto';
 // Lean admin-secret. Bij login zetten we een httpOnly cookie met een HMAC-token
 // afgeleid van ADMIN_SECRET, zodat het secret zelf niet in de cookie staat.
 //
-// TODO (Café Claude): vervang dit door het bestaande SSO/HMAC-beheerpatroon.
+// TODO (communities-tools): vervang dit door het bestaande SSO/HMAC-beheerpatroon.
 // Alle admin-checks lopen via isAdmin()/requireAdmin() — alleen dáár hoeft de
 // koppeling te veranderen.
 

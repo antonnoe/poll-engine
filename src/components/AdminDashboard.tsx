@@ -111,6 +111,7 @@ function CreatePoll({ onCreated }: { onCreated: () => void }) {
   const [ipDedup, setIpDedup] = useState(true);
   const [collect, setCollect] = useState(false);
   const [fields, setFields] = useState('naam, email');
+  const [purgeDays, setPurgeDays] = useState('');
   const [closesAt, setClosesAt] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -128,6 +129,7 @@ function CreatePoll({ onCreated }: { onCreated: () => void }) {
         ip_dedup: ipDedup,
         collect_personal_data: collect,
         personal_fields: collect ? fields.split(',').map((f) => f.trim()).filter(Boolean) : [],
+        purge_after_days: collect && purgeDays.trim() ? Number(purgeDays) : null,
         closes_at: closesAt || null,
       }),
     });
@@ -165,6 +167,14 @@ function CreatePoll({ onCreated }: { onCreated: () => void }) {
         <>
           <label>Velden (kommagescheiden)</label>
           <input value={fields} onChange={(e) => setFields(e.target.value)} />
+          <label>Persoonsgegevens automatisch wissen na (dagen, leeg = nooit)</label>
+          <input
+            type="number"
+            min={1}
+            placeholder="bv. 90"
+            value={purgeDays}
+            onChange={(e) => setPurgeDays(e.target.value)}
+          />
         </>
       )}
       <label>Sluitdatum (optioneel)</label>

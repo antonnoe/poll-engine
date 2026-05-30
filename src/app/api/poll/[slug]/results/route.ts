@@ -21,6 +21,11 @@ export async function GET(
   if (pollErr) return NextResponse.json({ error: 'Serverfout.' }, { status: 500 });
   if (!poll) return NextResponse.json({ error: 'Poll niet gevonden.' }, { status: 404 });
 
+  // Purge mee met de uitslag-route: wist person van inzendingen ouder dan de
+  // per-poll ingestelde purge_after_days (standaard uit). answers/created_at
+  // blijven intact, dus de aggregatie hieronder blijft kloppen. Best-effort.
+  await supabase.rpc('purge_expired_person_data', { p_poll_id: poll.id });
+
   const { data: questions } = await supabase
     .from('poll_questions')
     .select('*')
