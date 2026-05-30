@@ -1,6 +1,9 @@
--- ============ Seed: eerste poll "paspoortreis" ============
--- Anoniem (collect_personal_data = false), ip_dedup aan, status open.
--- Idempotent: verwijdert een eventueel bestaande paspoortreis-poll eerst.
+-- ============ Seed: raadpleging "paspoortreis" (herzien) ============
+-- Status: permanent (sluit nooit, doorlopend stemmen + resultaat).
+-- Anoniem (collect_personal_data = false), ip_dedup aan, vier vragen.
+-- Idempotent: verwijdert bestaande poll + vragen (cascade) en voegt opnieuw in.
+-- Vereist migratie 0003_permanent.sql (status 'permanent') en 0004_question_info.sql
+-- (kolom poll_questions.info).
 
 delete from public.polls where slug = 'paspoortreis';
 
@@ -8,25 +11,33 @@ with p as (
   insert into public.polls (slug, titel, intro, status, collect_personal_data, ip_dedup)
   values (
     'paspoortreis',
-    'Paspoortreis — peiling',
+    'Paspoortreis — raadpleging',
     'Dit is een peiling, geen aanbod en geen toezegging.',
-    'open',
+    'permanent',
     false,
     true
   )
   returning id
 )
-insert into public.poll_questions (poll_id, positie, type, label, config, verplicht)
-select p.id, v.positie, v.type, v.label, v.config::jsonb, v.verplicht
+insert into public.poll_questions (poll_id, positie, type, label, config, verplicht, info)
+select p.id, v.positie, v.type, v.label, v.config::jsonb, v.verplicht, v.info
 from p,
 (values
   (0, 'keuze',
-      'Heeft u binnen 12 maanden een paspoort- of ID-kaartaanvraag voor de boeg?',
-      '{"opties":["Ja","Nee","Mogelijk"]}', true),
+      'Wanneer verwacht u uw paspoort of ID-kaart te moeten vernieuwen?',
+      '{"opties":["Dit kwartaal","Komende 6 maanden","Over 6–12 maanden","Later","Weet niet"]}',
+      true, null),
   (1, 'keuze',
       'Zou u met anderen uit uw regio willen meereizen?',
-      '{"opties":["Ja, graag","Misschien","Nee, liever zelf"]}', true),
-  (2, 'postcode',
+      '{"opties":["Ja, graag","Misschien","Nee, liever zelf"]}',
+      true, null),
+  (2, 'keuze',
+      'Welke locatie heeft uw voorkeur?',
+      '{"opties":["Ambassade Parijs","Barcelona (VFS Global)","Buurland-ambassade (Luxemburg, België, Duitsland)","Grensgemeente in Nederland","Schiphol","Mobiel station afwachten"]}',
+      true,
+      'Persoonlijke verschijning is bij elke locatie verplicht. De ambassade in Parijs en grensgemeenten zijn het voordeligst; een grensgemeente in Nederland verwerkt de aanvraag in Nederland en is daardoor goedkoper. VFS Global (o.a. Barcelona) kost dezelfde basisprijs plus een toeslag, maar heeft vaak sneller plek dan een volgeboekte ambassade. Het mobiele aanvraagstation is bedoeld voor wie om medische redenen niet kan reizen en heeft beperkte capaciteit.'),
+  (3, 'postcode',
       'Vanuit welke postcode zou u vertrekken?',
-      '{}', true)
-) as v(positie, type, label, config, verplicht);
+      '{}',
+      true, null)
+) as v(positie, type, label, config, verplicht, info);

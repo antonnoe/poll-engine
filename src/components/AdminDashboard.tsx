@@ -264,11 +264,12 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
   const [smax, setSmax] = useState(5);
   const [minLabel, setMinLabel] = useState('');
   const [maxLabel, setMaxLabel] = useState('');
+  const [info, setInfo] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   async function add() {
     setError(null);
-    const payload: Record<string, unknown> = { type, label, verplicht };
+    const payload: Record<string, unknown> = { type, label, verplicht, info };
     if (type === 'keuze' || type === 'meervoud') {
       payload.opties = opties.split('\n').map((o) => o.trim()).filter(Boolean);
     } else if (type === 'schaal') {
@@ -285,6 +286,7 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
       return;
     }
     setLabel('');
+    setInfo('');
     onAdded();
   }
 
@@ -328,6 +330,9 @@ function AddQuestion({ slug, onAdded }: { slug: string; onAdded: () => void }) {
           </div>
         </div>
       )}
+
+      <label>Toelichting [i] (optioneel; toont uitklap naast het vraaglabel)</label>
+      <textarea value={info} onChange={(e) => setInfo(e.target.value)} rows={3} />
 
       <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 12 }}>
         <input type="checkbox" style={{ width: 'auto' }} checked={verplicht} onChange={(e) => setVerplicht(e.target.checked)} />

@@ -21,6 +21,7 @@ export async function POST(
     schaal?: { min?: number; max?: number; min_label?: string; max_label?: string };
     verplicht?: boolean;
     positie?: number;
+    info?: string;
   };
   try {
     body = await req.json();
@@ -78,7 +79,15 @@ export async function POST(
 
   const { data, error } = await supabase
     .from('poll_questions')
-    .insert({ poll_id: poll.id, type, label, config, verplicht: body.verplicht ?? true, positie })
+    .insert({
+      poll_id: poll.id,
+      type,
+      label,
+      config,
+      verplicht: body.verplicht ?? true,
+      positie,
+      info: body.info?.trim() || null,
+    })
     .select()
     .single();
   if (error) return NextResponse.json({ error: 'Toevoegen mislukt.' }, { status: 500 });

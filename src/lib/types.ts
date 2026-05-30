@@ -36,6 +36,7 @@ export interface PollQuestion {
   label: string;
   config: QuestionConfig;
   verplicht: boolean;
+  info: string | null; // optionele toelichting; toont [i]-uitklap naast het label
 }
 
 // Afgeleid postcode-antwoord zoals opgeslagen (postcode zelf wordt NIET bewaard).

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { PollWithQuestions, PollQuestion, KeuzeConfig, SchaalConfig, PollResults } from '@/lib/types';
 import Results from './Results';
+import { ABONNEMENT_URL } from '@/lib/links';
 
 interface PostcodeState {
   value: string;
@@ -128,6 +129,14 @@ export default function PollForm({ poll }: { poll: PollWithQuestions }) {
             <Results data={results} />
           </>
         )}
+
+        {/* CTA: discrete abonnee-werving onder de uitslag. */}
+        <div className="cta-block">
+          <p className="cta-text">Waardeert u dit initiatief?</p>
+          <a className="btn-cta" href={ABONNEMENT_URL} target="_blank" rel="noopener">
+            Word abonnee
+          </a>
+        </div>
       </div>
     );
   }
@@ -193,12 +202,25 @@ function Question({
   onToggle: (qid: number, opt: string) => void;
   onPostcode: (qid: number, v: string) => void;
 }) {
+  const [infoOpen, setInfoOpen] = useState(false);
   return (
     <div className="question">
       <div className="question-label">
         {q.label}
         {q.verplicht && <span className="req-mark"> *</span>}
+        {q.info && (
+          <button
+            type="button"
+            className="info-toggle"
+            aria-expanded={infoOpen}
+            aria-label="Toelichting tonen"
+            onClick={() => setInfoOpen((v) => !v)}
+          >
+            i
+          </button>
+        )}
       </div>
+      {q.info && infoOpen && <div className="info-block">{q.info}</div>}
 
       {q.type === 'keuze' && (
         <div className="options">

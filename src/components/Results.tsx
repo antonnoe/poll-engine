@@ -58,7 +58,7 @@ function QuestionResultView({ q }: { q: QuestionResult }) {
           ) : (
             <Bars
               rows={q.departments.map((d) => ({
-                label: `${d.dept_naam} (${d.dept_code})`,
+                label: d.dept_code ? `${d.dept_naam} (${d.dept_code})` : d.dept_naam,
                 count: d.count,
                 pct: d.pct,
               }))}

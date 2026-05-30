@@ -9,6 +9,10 @@ import type {
 const round1 = (n: number) => Math.round(n * 10) / 10;
 const pct = (count: number, total: number) => (total === 0 ? 0 : Math.round((count / total) * 100));
 
+// Privacy-ondergrens: een departement krijgt pas een eigen balk vanaf dit aantal
+// stemmen; departementen daaronder worden samengevoegd onder "Overige".
+const DEPT_MIN_VOTES = 3;
+
 type SubmissionAnswers = Record<string, unknown>;
 
 // Aggregeert submissions per vraag tot enkel tellingen (geen person/ip_hash).
@@ -101,9 +105,24 @@ export function aggregateQuestion(
             });
         }
       }
-      const departments = Array.from(map.values())
+      const all = Array.from(map.values());
+      const departments = all
+        .filter((d) => d.count >= DEPT_MIN_VOTES)
         .map((d) => ({ ...d, pct: pct(d.count, total) }))
         .sort((a, b) => b.count - a.count); // hoogste boven
+      // Departementen met 1–2 stemmen samenvoegen onder één "Overige"-balk.
+      const restCount = all
+        .filter((d) => d.count < DEPT_MIN_VOTES)
+        .reduce((sum, d) => sum + d.count, 0);
+      if (restCount > 0) {
+        departments.push({
+          dept_code: '',
+          dept_naam: 'Overige',
+          region_naam: '',
+          count: restCount,
+          pct: pct(restCount, total),
+        });
+      }
       return { type: 'postcode', label: q.label, total, departments };
     }
     default:

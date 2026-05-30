@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { anonClient } from '@/lib/supabase';
 import PollForm from '@/components/PollForm';
+import ShareButtons from '@/components/ShareButtons';
 import type { Poll, PollQuestion, PollWithQuestions } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -45,6 +46,9 @@ export default async function PollPage({
         </p>
       </div>
       <PollForm poll={full} />
+      <div className="poll-card share-card">
+        <ShareButtons />
+      </div>
       <footer className="poll-herkomst">
         Raadplegingsinstrument ontwikkeld door Communities Abroad, de
         serviceorganisatie achter Infofrankrijk.com, Café Claude (cafeclaude.fr),
