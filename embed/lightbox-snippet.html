@@ -1,0 +1,38 @@
+<!-- ============================================================
+     Café Claude poll — LICHTBOX-EMBED (voorkeur)
+     Plak dit blok in de smalle NLFR-kolom.
+     Vervang BASE_URL en de SLUG.
+     ============================================================ -->
+<div class="cc-poll-teaser" style="border:1px solid rgba(128,0,0,.15);border-radius:12px;padding:16px;font-family:'Mulish',system-ui,sans-serif;background:#fff;">
+  <p style="margin:0 0 10px;line-height:1.7em;">
+    Korte peiling — uw mening telt. Dit is een peiling, geen aanbod en geen toezegging.
+  </p>
+  <button type="button"
+          onclick="ccOpenPoll('https://BASE_URL/poll/SLUG')"
+          style="display:inline-block;padding:12px 18px;border:none;border-radius:10px;background:#800000;color:#fff;font-family:'Poppins',sans-serif;font-weight:600;cursor:pointer;">
+    Doe mee aan de peiling
+  </button>
+</div>
+
+<script>
+/* Opent de poll-route als overlay (iframe-lichtbox) op volle breedte. */
+function ccOpenPoll(url) {
+  if (document.getElementById('cc-poll-overlay')) return;
+  var ov = document.createElement('div');
+  ov.id = 'cc-poll-overlay';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);display:flex;align-items:flex-start;justify-content:center;padding:0;';
+  ov.innerHTML =
+    '<div style="position:relative;width:100%;max-width:680px;height:100%;background:#faf7f5;overflow:auto;">' +
+      '<button aria-label="Sluiten" onclick="ccClosePoll()" style="position:absolute;top:10px;right:12px;z-index:2;border:none;background:#800000;color:#fff;border-radius:8px;width:36px;height:36px;font-size:20px;cursor:pointer;">×</button>' +
+      '<iframe src="' + url + '" style="border:0;width:100%;height:100%;min-height:100vh;" loading="lazy"></iframe>' +
+    '</div>';
+  ov.addEventListener('click', function (e) { if (e.target === ov) ccClosePoll(); });
+  document.body.appendChild(ov);
+  document.body.style.overflow = 'hidden';
+}
+function ccClosePoll() {
+  var ov = document.getElementById('cc-poll-overlay');
+  if (ov) ov.remove();
+  document.body.style.overflow = '';
+}
+</script>
