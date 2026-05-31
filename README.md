@@ -101,15 +101,18 @@ Twee snippets in `embed/` (vervang `BASE_URL` en `SLUG`):
 - `embed/popup-snippet.html` — fallback zonder inline JS: knop opent de poll in een
   nieuw tabblad.
 
-## Losse overzichtspagina (`embed/raadplegingen.html`)
+## Overzichtsroute (`/raadplegingen`)
 
-Zelfstandig HTML-bestand (geen Next.js-route) in galaxy-menu-stijl, eigen viewport +
-inline CSS in huisstijl, mobiel-vriendelijk. Haalt bij laden `GET /api/polls` op van de
-poll-engine (absolute URL in de `BASE`-constante: `https://poll-engine.vercel.app`) en
-toont drie secties: **Lopende** (knop "Doe mee" → `/poll/[slug]`), **Permanente** (live
-resultaat via de results-endpoint) en **Voltooide** (resultaat). Bedoeld om als losse
-HTML achter `nederlanders.fr/raadplegingen` te hangen. Pas alleen `BASE` aan als het
-Vercel-domein wijzigt.
+Volwaardige Next.js-route op `https://poll-engine.vercel.app/raadplegingen` (geen los
+HTML-bestand meer). Toont drie secties: **Lopende** (knop "Doe mee" → `/poll/[slug]` +
+live tussenstand), **Permanente** (idem) en **Voltooide** (resultaat). Met deel-knoppen,
+vaste QR-afbeelding (`public/raadplegingen-qr.png`) en herkomst-voettekst.
+
+**Iframe-embedding op nederlanders.fr:** de route stuurt
+`Content-Security-Policy: frame-ancestors 'self' https://nederlanders.fr https://www.nederlanders.fr`
+(geen `X-Frame-Options: DENY`), zodat framing vanaf het NLFR-domein is toegestaan. De
+pagina meldt haar hoogte via `postMessage` (`{type:'raadplegingen:height', height}`),
+zodat de iframe kan meegroeien. Zie de embedcode onderaan deze sectie / in de release-notes.
 
 ---
 
