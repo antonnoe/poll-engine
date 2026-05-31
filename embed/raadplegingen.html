@@ -80,7 +80,7 @@
   .btn-share.fb{background:var(--primary);color:#fff}
   .share-copied{color:var(--muted);font-size:.8rem;margin-top:6px}
   .qr-col{flex:0 0 auto;text-align:center}
-  .qr-col img{border:1px solid var(--border);border-radius:10px;background:#fff;padding:6px;display:block;width:148px;height:148px}
+  .qr-col img{border:1px solid var(--border);border-radius:10px;background:#fff;padding:6px;display:block;width:148px;height:auto}
   .qr-caption{margin-top:6px;color:var(--muted);font-size:.82rem}
   .qr-col .btn-share{margin-top:8px;display:inline-block}
 </style>
@@ -103,13 +103,17 @@
     </div>
     <div class="qr-col">
       <h2>QR-code</h2>
+      <!-- QR-afbeelding: vervang onderstaande URL door je eigen geuploade QR (bv. op Ning/storage.ning.com). -->
       <a href="https://www.nederlanders.fr/raadplegingen" target="_blank" rel="noopener" aria-label="Open de raadplegingen">
-        <img id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8CAAAAACA208DAAAEcklEQVR42u3aMXLDQAwEQf3/0/YDnPiMXfBY7glVEnVEM0Lx86XX9jECeIInePAET/AED57gCR48wRM8wYMneIInePAET/DgCZ7gCR48wRM8wYMneIIHT/AET/DgCZ7gwRM8wRM8eIIneBrjfQrFbib0X7/5/g1zgAcPHjx48ODBgwcPHjx48ODBgwcP3t8GlBp06vq/ueYEZnMO8ODBgwcPHjx48ODBgwcPHjx48ODB28E7XbyeDnFyw5P/umEO8ODBgwcPHjx48ODBgwcPHjx48ODBexdeanGcWkbDgwcPHjx48ODBgwcPHjx48ODBgwcP3uTz1Bkai2x48ODBgwcPHjx48ODBgwcPHjx48OC9C69xnRRAaun81BzgwYMHDx48ePDgwYMHDx48ePDgwYOXxUuVWlg/9XljDvDgwYMHDx48ePDgwYMHDx48ePDgwcviPdXpEBuDvm4m8ODBgwcPHjx48ODBgwcPHjx48ODBiw5x8nnjDKeQk3OengEePHjw4MGDBw8ePHjw4MGDBw8ePHj34DVetE0NZYJxw3ngwYMHDx48ePDgwYMHDx48ePDgwYM3x0vBpG7+hu83HgJ48ODBgwcPHjx48ODBgwcPHjx48ODdgzdZgk8W4im89kMJDx48ePDgwYMHDx48ePDgwYMHDx68LF4K+PQGJkOZAKTgK8tuePDgwYMHDx48ePDgwYMHDx48ePDgXdPmQBuL780lNTx48ODBgwcPHjx48ODBgwcPHjx48HYW0O1BT86cut/XLKbhwYMHDx48ePDgwYMHDx48ePDgwYP3p0NPFripB2VynsZ84MGDBw8ePHjw4MGDBw8ePHjw4MGDt4O3CdxeNKcemtcspuHBgwcPHjx48ODBgwcPHjx48ODB+8d4qQXr6g0PABovDcODBw8ePHjw4MGDBw8ePHjw4MGDB28Hb3NwjcV0A29zmQ4PHjx48ODBgwcPHjx48ODBgwcPHrzeYrrxEmrqt+1l9GQO8ODBgwcPHjx48ODBgwcPHjx48ODB219MP/X55JztvsrBgwcPHjx48ODBgwcPHjx48ODBgwfvniZL5Anq6bK78dDAgwcPHjx48ODBgwcPHjx48ODBgwdvZzH91AJ386XYzZeA4cGDBw8ePHjw4MGDBw8ePHjw4MGDt4OXWkBPwJ5CapwTHjx48ODBgwcPHjx48ODBgwcPHjx4+3ipl2XbC+7T324u3OHBgwcPHjx48ODBgwcPHjx48ODBg/devMYS/KmHYzIfePDgwYMHDx48ePDgwYMHDx48ePDgvXcxvflwNK7TfkDhwYMHDx48ePDgwYMHDx48ePDgwYM3x2tc5zbg9n3BgwcPHjx48ODBgwcPHjx48ODBgwdvBy/V5Pqp899wj/DgwYMHDx48ePDgwYMHDx48ePDgwevh6Z7gwRM8wYMneIInePAET/DgCZ7gCR48wRM8wYMneIIHT/AET/DgCZ7gCR48wRM8eIIneIIHT/AED57gCZ7gwRM8wdOPvgFMCHyBSmaoSQAAAABJRU5ErkJggg==" width="148" height="148" alt="QR-code naar de raadplegingen" />
+        <img id="qrImg"
+             src="https://storage.ning.com/topology/rest/1.0/file/get/31172668680"
+             alt="QR-code naar de raadplegingen" />
       </a>
       <div class="qr-caption">Scan de QR-code</div>
-      <a class="btn-share" id="qrDownload" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8CAAAAACA208DAAAEcklEQVR42u3aMXLDQAwEQf3/0/YDnPiMXfBY7glVEnVEM0Lx86XX9jECeIInePAET/AED57gCR48wRM8wYMneIInePAET/DgCZ7gCR48wRM8wYMneIIHT/AET/DgCZ7gwRM8wRM8eIIneBrjfQrFbib0X7/5/g1zgAcPHjx48ODBgwcPHjx48ODBgwcP3t8GlBp06vq/ueYEZnMO8ODBgwcPHjx48ODBgwcPHjx48ODB28E7XbyeDnFyw5P/umEO8ODBgwcPHjx48ODBgwcPHjx48ODBexdeanGcWkbDgwcPHjx48ODBgwcPHjx48ODBgwcP3uTz1Bkai2x48ODBgwcPHjx48ODBgwcPHjx48OC9C69xnRRAaun81BzgwYMHDx48ePDgwYMHDx48ePDgwYOXxUuVWlg/9XljDvDgwYMHDx48ePDgwYMHDx48ePDgwcviPdXpEBuDvm4m8ODBgwcPHjx48ODBgwcPHjx48ODBiw5x8nnjDKeQk3OengEePHjw4MGDBw8ePHjw4MGDBw8ePHj34DVetE0NZYJxw3ngwYMHDx48ePDgwYMHDx48ePDgwYM3x0vBpG7+hu83HgJ48ODBgwcPHjx48ODBgwcPHjx48ODdgzdZgk8W4im89kMJDx48ePDgwYMHDx48ePDgwYMHDx68LF4K+PQGJkOZAKTgK8tuePDgwYMHDx48ePDgwYMHDx48ePDgXdPmQBuL780lNTx48ODBgwcPHjx48ODBgwcPHjx48HYW0O1BT86cut/XLKbhwYMHDx48ePDgwYMHDx48ePDgwYP3p0NPFripB2VynsZ84MGDBw8ePHjw4MGDBw8ePHjw4MGDt4O3CdxeNKcemtcspuHBgwcPHjx48ODBgwcPHjx48ODB+8d4qQXr6g0PABovDcODBw8ePHjw4MGDBw8ePHjw4MGDB28Hb3NwjcV0A29zmQ4PHjx48ODBgwcPHjx48ODBgwcPHrzeYrrxEmrqt+1l9GQO8ODBgwcPHjx48ODBgwcPHjx48ODB219MP/X55JztvsrBgwcPHjx48ODBgwcPHjx48ODBgwfvniZL5Anq6bK78dDAgwcPHjx48ODBgwcPHjx48ODBgwdvZzH91AJ386XYzZeA4cGDBw8ePHjw4MGDBw8ePHjw4MGDt4OXWkBPwJ5CapwTHjx48ODBgwcPHjx48ODBgwcPHjx4+3ipl2XbC+7T324u3OHBgwcPHjx48ODBgwcPHjx48ODBg/devMYS/KmHYzIfePDgwYMHDx48ePDgwYMHDx48ePDgvXcxvflwNK7TfkDhwYMHDx48ePDgwYMHDx48ePDgwYM3x2tc5zbg9n3BgwcPHjx48ODBgwcPHjx48ODBgwdvBy/V5Pqp899wj/DgwYMHDx48ePDgwYMHDx48ePDgwevh6Z7gwRM8wYMneIInePAET/DgCZ7gCR48wRM8wYMneIIHT/AET/DgCZ7gCR48wRM8eIIneIIHT/AED57gCZ7gwRM8wdOPvgFMCHyBSmaoSQAAAABJRU5ErkJggg==" download="raadplegingen-qr.png">Download QR</a>
+      <a class="btn-share" id="qrDownload"
+         href="https://storage.ning.com/topology/rest/1.0/file/get/31172668680"
+         target="_blank" rel="noopener" download>Download QR</a>
     </div>
-  </div>
 
   <div id="content"><p class="loading">Raadplegingen laden…</p></div>
 
